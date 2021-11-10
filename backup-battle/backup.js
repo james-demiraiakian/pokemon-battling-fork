@@ -2,9 +2,10 @@ import { getPokemon, generateComPokemon, isKO } from '../functions/utils.js';
 import { moves } from '../data/pokemon-moves.js';
 import { getActive } from '../functions/getActive.js';
 import { baseStat } from '../functions/baseStat.js';
-import { damage, heals } from '../functions/damage.js';
+import { heals } from '../functions/damage.js';
 import isCompKO from '../functions/isCompKO.js';
 import findById from '../functions/findById.js';
+import { playerAttPhys, computerAttPhys, playerAttSpe, computerAttSpe } from '../functions/attackFunction.js';
 
 const move1 = document.getElementById('move1');
 const move2 = document.getElementById('move2');
@@ -244,21 +245,17 @@ submit.addEventListener('click', (e) => {
         const moveData = moves[selectedMove];
     
         if (moveData.category === 'Physical') {
-            //player does damage
-            let playerMoveDamage = damage(playerStats.atk, compStats.def, compStats.hp, moveData.basePower); 
-            computerHp = computerHp - playerMoveDamage;
+            computerHp = playerAttPhys(playerStats, compStats, moveData, computerHp);
             compHP.textContent = computerHp;
             compStats.hp = computerHp;
 
             if (computerMove.category === 'Physical') {
-                let compMoveDamage = damage(compStats.atk, playerStats.def, playerStats.hp, computerMove.basePower);
-                currentHp = currentHp - compMoveDamage;
+                currentHp = computerAttPhys(compStats, playerStats, computerMove, currentHp);
                 playerHP.textContent = currentHp;
                 playerStats.hp = currentHp;
 
             } else if (computerMove.category === 'Special') {
-                let compMoveDamage = damage(compStats.spa, playerStats.spd, playerStats.hp, computerMove.basePower);
-                currentHp = currentHp - compMoveDamage;
+                currentHp = computerAttSpe(compStats, playerStats, computerMove, currentHp);
                 playerHP.textContent = currentHp;
                 playerStats.hp = currentHp;
             } 
@@ -270,20 +267,17 @@ submit.addEventListener('click', (e) => {
             }
         }
         else if (moveData.category === 'Special') {
-            let playerMoveDamage = damage(playerStats.spa, compStats.spd, compStats.hp, moveData.basePower); 
-            computerHp = computerHp - playerMoveDamage;
+            computerHp = playerAttSpe(playerStats, compStats, moveData, computerHp);
             compHP.textContent = computerHp;
             compStats.hp = computerHp;
 
             if (computerMove.category === 'Physical') {
-                let compMoveDamage = damage(compStats.atk, playerStats.def, playerStats.hp, computerMove.basePower);
-                currentHp = currentHp - compMoveDamage;
+                currentHp = computerAttPhys(compStats, playerStats, computerMove, currentHp);
                 playerHP.textContent = currentHp;
                 playerStats.hp = currentHp;
 
             } else if (computerMove.category === 'Special') {
-                let compMoveDamage = damage(compStats.spa, playerStats.spd, playerStats.hp, computerMove.basePower);
-                currentHp = currentHp - compMoveDamage;
+                currentHp = computerAttSpe(compStats, playerStats, computerMove, currentHp);
                 playerHP.textContent = currentHp;
                 playerStats.hp = currentHp;
             } 
