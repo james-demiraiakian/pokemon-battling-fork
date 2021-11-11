@@ -11,7 +11,6 @@ const move1 = document.getElementById('move1');
 const move2 = document.getElementById('move2');
 const move3 = document.getElementById('move3');
 const move4 = document.getElementById('move4');
-// const switchButton = document.getElementById('switch');
 const submit = document.getElementById('submit');
 const compHP = document.getElementById('comp-hp');
 const compImage = document.getElementById('comp-image');
@@ -21,7 +20,15 @@ const move1Span = document.getElementById('move-1-span');
 const move2Span = document.getElementById('move-2-span');
 const move3Span = document.getElementById('move-3-span');
 const move4Span = document.getElementById('move-4-span');
-
+const pokeSwitchRadio1 = document.getElementById('pokemon-1');
+const pokeSwitchRadio2 = document.getElementById('pokemon-2');
+const pokeSwitchRadio3 = document.getElementById('pokemon-3');
+const pokeSwitchSpan1 = document.getElementById('pokemon-1-span');
+const pokeSwitchSpan2 = document.getElementById('pokemon-2-span');
+const pokeSwitchSpan3 = document.getElementById('pokemon-3-span');
+const pokeSwitchForm = document.getElementById('pokemon-switch-form');
+const moveSelectForm = document.getElementById('move-select-form');
+const switchButton = document.getElementById('switch-button');
 
 const playerPokemon1 = getPokemon();
 
@@ -40,6 +47,12 @@ playerPokemon1.forEach((Object)=>{
     });
 });
 
+pokeSwitchRadio1.value = playerPokemon[0].num;
+pokeSwitchRadio2.value = playerPokemon[1].num;
+pokeSwitchRadio3.value = playerPokemon[2].num;
+pokeSwitchSpan1.textContent = playerPokemon[0].name;
+pokeSwitchSpan2.textContent = playerPokemon[1].name;
+pokeSwitchSpan3.textContent = playerPokemon[2].name;
 playerPokemon1[0].active = true;
 
 
@@ -177,7 +190,7 @@ submit.addEventListener('click', (e) => {
     
     alert(computerPokemon.name + ' uses ' + compMove);
     
-    if (isKO(activePokemon) === true) {
+    if (isKO(activePokemon)) {
         move1Span.classList.add('hidden');
         move2Span.classList.add('hidden');
         move3Span.classList.add('hidden');
@@ -185,26 +198,9 @@ submit.addEventListener('click', (e) => {
     }
 
     if (selectedMoveRadio.id === 'switch') {
-
-        const pokeSwitchRadio1 = document.getElementById('pokemon-1');
-        const pokeSwitchRadio2 = document.getElementById('pokemon-2');
-        const pokeSwitchRadio3 = document.getElementById('pokemon-3');
-        const pokeSwitchSpan1 = document.getElementById('pokemon-1-span');
-        const pokeSwitchSpan2 = document.getElementById('pokemon-2-span');
-        const pokeSwitchSpan3 = document.getElementById('pokemon-3-span');
-        const pokeSwitchForm = document.getElementById('pokemon-switch-form');
-        const moveSelectForm = document.getElementById('move-select-form');
-        const switchButton = document.getElementById('switch-button');
         
         submit.classList.add('hidden');
         switchButton.classList.remove('hidden');
-
-        pokeSwitchRadio1.value = playerPokemon[0].num;
-        pokeSwitchRadio2.value = playerPokemon[1].num;
-        pokeSwitchRadio3.value = playerPokemon[2].num;
-        pokeSwitchSpan1.textContent = playerPokemon[0].name;
-        pokeSwitchSpan2.textContent = playerPokemon[1].name;
-        pokeSwitchSpan3.textContent = playerPokemon[2].name;
         pokeSwitchForm.classList.remove('hidden');
         moveSelectForm.classList.add('hidden');
 
@@ -281,7 +277,7 @@ submit.addEventListener('click', (e) => {
                 playerHP.textContent = currentHp;
                 playerStats.hp = currentHp;
             } 
-            if (isKO(activePokemon) === true) {
+            if (isKO(activePokemon)) {
                 move1Span.classList.add('hidden');
                 move2Span.classList.add('hidden');
                 move3Span.classList.add('hidden');
@@ -294,7 +290,7 @@ submit.addEventListener('click', (e) => {
         
     }
 
-    if (isKO(activePokemon) === true) {
+    if (isKO(activePokemon)) {
         move1Span.classList.add('hidden');
         move2Span.classList.add('hidden');
         move3Span.classList.add('hidden');
@@ -310,12 +306,12 @@ submit.addEventListener('click', (e) => {
     playerHP.textContent = currentHp;
     compHP.textContent = computerHp;
 });
-const switchButton = document.getElementById('switch-button');
+
 switchButton.classList.add('hidden');
 let koNumber = 0;
 
 setInterval(function(){ 
-    if (isKO(activePokemon) === true) {
+    if (isKO(activePokemon)) {
         move1Span.classList.add('hidden');
         move2Span.classList.add('hidden');
         move3Span.classList.add('hidden');
@@ -324,7 +320,7 @@ setInterval(function(){
 
     let isComputerKO = isCompKO(computerPokemon, computerHp);
     
-    if (isComputerKO === true) {
+    if (isComputerKO) {
         if (computerPokemon.num === computerPokemon1[0].num) {
             computerPokemon.active = false;
             computerPokemon = computerPokemon1[1];
